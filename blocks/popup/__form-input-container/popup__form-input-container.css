@@ -1,0 +1,13 @@
+.popup__form-input-container {
+    width: 358px;
+    margin: 0 auto 37px;
+    border: none;
+    padding: 0;
+}
+
+@media screen and (max-width:540px) {
+    .popup__form-input-container {
+        width: 238px;
+        margin: 0 auto 25px;
+    }    
+}

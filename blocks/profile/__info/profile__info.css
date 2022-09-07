@@ -1,0 +1,12 @@
+.profile__info {
+    display: flex;
+    flex-flow: column nowrap;
+    row-gap: 7px;
+    margin: 22px 0 0;
+}
+
+@media screen and (max-width:540px) {
+    .profile__info {
+        margin-top: 22.25px;
+    } 
+}
