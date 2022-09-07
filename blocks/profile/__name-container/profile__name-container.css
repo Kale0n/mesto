@@ -1,7 +1,7 @@
 .profile__name-container {
     display: flex;
     flex-direction: row;
-    column-gap: 18px; 
+    column-gap: 18px;
     align-items: baseline;
 }
 
