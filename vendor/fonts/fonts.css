@@ -13,12 +13,6 @@
 
 @font-face {
     font-family: 'Inter';
-    font-weight: bold;
-    src: url(Inter/static/Inter-Bold.ttf);
-}
-
-@font-face {
-    font-family: 'Inter';
     font-weight: 900;
     src: url(Inter/static/Inter-Black.ttf);
 }

@@ -4,6 +4,7 @@
     font-size: 24px;
     line-height: 29px;
     min-height: 29px;
+    max-width: 219px;
     color: #000;
     margin: 0;
     text-overflow: ellipsis;
