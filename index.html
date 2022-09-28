@@ -6,7 +6,7 @@
         <title>Место</title>
         <link rel="stylesheet" href="pages/index.css">
     </head>
-
+    
     <body class="page">
         <header class="header">
             <a href="#" class="header__logo"></a>
@@ -18,61 +18,24 @@
                 <div class="profile__info">
                     <div class="profile__name-container">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
-                        <button type="button" class="profile__edit-button"></button>
+                        <button name='popupButton'type="button" class="profile__edit-button"></button>
                     </div>
                     <p class="profile__occupation">Исследователь океана</p>
                 </div>
-                <button type="button" class="profile__add-button"></button>
+                <button name='popupButton' type="button" class="profile__add-button"></button>
             </section>
 
             <section class="elements">
-                <div class="element">
-                    <img class="element__photo" src="images/Velikii_Novgorod.jpg" alt="Великий Новгород">
-                    <div class="element__container">
-                        <h2 class="element__title">Великий Новгород</h2>
-                        <button type="button" class="element__like-button"><img src="images/like.svg" alt="лайк"></button>
+                <template id="card">
+                    <div class="element">
+                        <button name='popupButton' type="button" class="element__photo-button"><img class="element__photo"></button>
+                        <button type="button" class="element__delete-button"></button>
+                        <div class="element__container">
+                            <h2 class="element__title"></h2>
+                            <button type="button" class="element__like-button"></button>
+                        </div>
                     </div>
-                </div>
-
-                <div class="element">
-                    <img class="element__photo" src="images/Murmansk.jpg" alt="Мурманск">
-                    <div class="element__container">
-                        <h2 class="element__title">Мурманск</h2>
-                        <button type="button" class="element__like-button"><img src="images/like.svg" alt="лайк"></button>
-                    </div>
-                </div>
-                
-                <div class="element">
-                    <img class="element__photo" src="images/Teriberka.jpg" alt="Териберка">
-                    <div class="element__container">
-                        <h2 class="element__title">Териберка</h2>
-                        <button type="button" class="element__like-button"><img src="images/like.svg" alt="лайк"></button>
-                    </div>
-                </div>
-
-                <div class="element">
-                    <img class="element__photo" src="images/Georgia.jpg" alt="Грузия">
-                    <div class="element__container">
-                        <h2 class="element__title">Грузия</h2>
-                        <button type="button" class="element__like-button"><img src="images/like.svg" alt="лайк"></button>
-                    </div>
-                </div>
-
-                <div class="element">
-                    <img class="element__photo" src="images/Kurshskaya_kosa.jpg" alt="Куршская коса">
-                    <div class="element__container">
-                        <h2 class="element__title">Куршская коса</h2>
-                        <button type="button" class="element__like-button"><img src="images/like.svg" alt="лайк"></button>
-                    </div>
-                </div>
-
-                <div class="element">
-                    <img class="element__photo" src="images/North_Ossetia.jpg" alt="Северная Осетия">
-                    <div class="element__container">
-                        <h2 class="element__title">Северная Осетия</h2>
-                        <button type="button" class="element__like-button"><img src="images/like.svg" alt="лайк"></button>
-                    </div>
-                </div>             
+                </template>     
             </section>
         </main>
 
@@ -80,7 +43,7 @@
             <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
         </footer>
 
-        <div class="popup ">
+       <div class="popup popup_button_edit">
             <form name="editForm" class="popup__form-container">
                 <h3 class="popup__form-heading">Редактировать профиль</h3>
                 <fieldset name="ediFormFieldset" class="popup__form-input-container">
@@ -90,6 +53,26 @@
                 </fieldset>
                 <button name="closeButton" type="button" class="popup__close-button"></button>
             </form>
+        </div>
+
+        <div class="popup popup_button_add">
+            <form name="addForm" class="popup__form-container">
+                <h3 class="popup__form-heading">Новое место</h3>
+                <fieldset name="addFormFieldset" class="popup__form-input-container">
+                    <input type="text" name="newPlace" class="popup__input" placeholder="Название">
+                    <input type="text" name="link" class="popup__input" placeholder="Ссылка на картинку">
+                    <button type="submit" name="saveButton" class="popup__save-button">Сохранить</button>
+                </fieldset>
+                <button name="closeButton" type="button" class="popup__close-button"></button>
+            </form>
+        </div>
+
+        <div class="popup popup_zoom">
+            <figure class="zoom">
+                <img class="zoom__photo">
+                <figcaption class="zoom__caption">что-нибудь</figcaption>
+                <button name="closeButton" type="button" class="popup__close-button"></button>
+            </figure>
         </div>
 
         <script src="scripts/index.js"></script>

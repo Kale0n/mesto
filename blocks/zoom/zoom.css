@@ -1,0 +1,10 @@
+.zoom {
+    margin: 90px auto auto; 
+    position: relative;
+}
+
+@media screen and (max-width:540px) {
+    .zoom {
+        margin-top: 136px;
+    }
+}

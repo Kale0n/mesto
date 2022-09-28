@@ -1,0 +1,14 @@
+.zoom__photo {
+    max-width: 75vw;
+    max-height: 75vh;
+    min-width: 433px;
+    object-fit: cover;
+}
+
+@media screen and (max-width:540px) {
+    .zoom__photo {
+      min-height: 299px;
+      max-height: 299px;
+      min-width: 240px;
+    }
+}
