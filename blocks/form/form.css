@@ -1,4 +1,4 @@
-.form__container {
+.form {
     position: relative;
     max-width: 430px;
     min-height: 330px;
@@ -9,7 +9,7 @@
 }
 
 @media screen and (max-width: 540px) {
-    .form__container {
+    .form {
         max-width: 282px;
         min-height: 322px;
     }
