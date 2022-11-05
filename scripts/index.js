@@ -1,36 +1,10 @@
-//variables
-//переменные для карточек
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-]; 
-
+//общие переменные
 const cardTemplate = document.querySelector('#card').content; //ищем шаблон в html
 const cardsContainer = document.querySelector('.elements');
 
 //переменные для попапов
+const popups = Array.from(document.querySelectorAll('.popup')); //all popups
+const page = document.querySelector('.page')
 const popupEdit = document.querySelector('.popup_edit'); //ищем в DOMe сам попап
 const buttonEdit = document.querySelector('.profile__edit-button'); //ищем кнопку "редактировать"
 const popupAdd = document.querySelector('.popup_add');
@@ -56,14 +30,22 @@ function openPopup(popup) {
   popup.classList.add('popup_opened');
 }
 
-// функция закрытия всех карточек попапа. 
-function closePopup(popup) {
-  popup.classList.remove('popup_opened')
+// функция закрытия всех попапов. 
+function closeAllPopups() {
+  popups.forEach(element => element.classList.remove('popup_opened'));
 }
 
-function closePopupFromEvent(event) { 
-  closePopup(event.target.closest('.popup_opened'))
-} 
+//функция закрытия попапа через esc 
+function closePopupFromEscape(evt) {
+  if (evt.key === 'Escape') {
+    closeAllPopups(); // forEach проходится по всем элементам массива и закрывает их, если нажата клавиша esc. ForEach передает коллбэк функции попапы, которая та и принимает как аргумент. 
+  } 
+}
+
+//функция закрытия попапа через overlay
+function closePopupFromOverlay (evt) {
+  if (evt.target.classList.contains('popup')) {closeAllPopups()}
+}
 
 // открыть попап с редактированием профиля
 function editProfile() { //функция, которая добавляет класс к попапу и, тем самым, делает попап видимым. Фокусы на грани магии. 
@@ -78,7 +60,7 @@ function handlSubmitForm (evt) { //функция сохраняет данны�
   profileName.textContent = nameInput.value; ; //меняем текст второй переменной на значение, полученное первой переменной. 
   profileOccupation.textContent = occupationInput.value; 
 
-  closePopupFromEvent(evt); //вызываем функцию закрытия попапа. 
+  closeAllPopups() //вызываем функцию закрытия попапа. 
 }
 
 //общая функция создания карточек
@@ -112,11 +94,11 @@ function addFormSubmit (evt) {
 
   cardFormAdd.reset()
 
-  closePopupFromEvent(evt)
+  closeAllPopups();
 } 
 
 // обработчики и вызов функций
-buttonsClose.forEach((element) => {element.addEventListener('click', closePopupFromEvent)}) // перебираем все кнопки в массиве и на каждую вешаем слушатель, который должен будет закрыть окно 
+buttonsClose.forEach((element) => {element.addEventListener('click', (evt) => {closeAllPopups()})}) // перебираем все кнопки в массиве и на каждую вешаем слушатель, который должен будет закрыть окно 
 
 buttonEdit.addEventListener('click', editProfile); //добавляем кнопке "редактировать" слушатель, который по клику на кнопку вызовет функцию
 
@@ -124,7 +106,11 @@ formEdit.addEventListener('submit', handlSubmitForm ); //эвентлисене�
 
 buttonAdd.addEventListener('click', (evt) => {openPopup(popupAdd)}) // открыть попап с добавлением карточки
 
-cardFormAdd.addEventListener('submit', addFormSubmit)
+cardFormAdd.addEventListener('submit', addFormSubmit);
+
+popups.forEach((element) => {element.addEventListener('click', closePopupFromOverlay)})
+
+document.addEventListener('keydown', closePopupFromEscape); //вешаем форму закрытия попапа через esc на весь попап. 
 
 for (let i = 0; i < initialCards.length; i++) {
   cardsContainer.append(createCard(i));

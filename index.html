@@ -44,24 +44,28 @@
         </footer>
 
        <div class="popup popup_edit">
-            <form name="formEdit" class="popup__form-container">
-                <h3 class="popup__form-heading">Редактировать профиль</h3>
-                <fieldset name="ediFormFieldset" class="popup__form-input-container">
-                    <input type="text" name="name" class="popup__input">
-                    <input type="text" name="occupation" class="popup__input">
-                    <button type="submit" name="saveButton" class="popup__save-button">Сохранить</button>
+            <form name="formEdit" class="form form__container" novalidate>
+                <h3 class="form__heading">Редактировать профиль</h3>
+                <fieldset name="ediFormFieldset" class="form__input-container">
+                    <input id="input-name" type="text" name="name" class="form__input" minlength="2" maxlength="40" required>
+                    <span class="input-name-error input-error"></span>
+                    <input id="input-occupation" type="text" name="occupation" class="form__input" minlength="2" maxlength="200" required>
+                    <span class="input-occupation-error input-error"></span>
+                    <button type="submit" name="saveButton" class="form__save-button">Сохранить</button>
                 </fieldset>
                 <button name="closeButton" type="button" class="popup__close-button"></button>
             </form>
         </div>
 
         <div class="popup popup_add">
-            <form name="addForm" class="popup__form-container">
-                <h3 class="popup__form-heading">Новое место</h3>
-                <fieldset name="addFormFieldset" class="popup__form-input-container">
-                    <input type="text" name="newPlace" class="popup__input" placeholder="Название">
-                    <input type="text" name="link" class="popup__input" placeholder="Ссылка на картинку">
-                    <button type="submit" name="saveButton" class="popup__save-button">Сохранить</button>
+            <form name="addForm" class="form form__container" novalidate>
+                <h3 class="form__heading">Новое место</h3>
+                <fieldset name="addFormFieldset" class="form__input-container">
+                    <input id="input-newPlace" type="text" name="newPlace" class="form__input" placeholder="Название" minlength="2" maxlength="30" required>
+                    <span class="input-newPlace-error  input-error"></span>
+                    <input id="input-link" type="url" name="link" class="form__input" placeholder="Ссылка на картинку" required>
+                    <span class="input-link-error input-error"></span>
+                    <button type="submit" name="saveButton" class="form__save-button">Создать</button>
                 </fieldset>
                 <button name="closeButton" type="button" class="popup__close-button"></button>
             </form>
@@ -75,6 +79,8 @@
             </figure>
         </div>
 
+        <script src="scripts/initialCards.js"></script>
         <script src="scripts/index.js"></script>
+        <script src="scripts/validate.js"></script>
     </body>
 </html>
