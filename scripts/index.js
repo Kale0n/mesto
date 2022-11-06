@@ -9,8 +9,11 @@ const popupEdit = document.querySelector('.popup_edit'); //ищем в DOMe са
 const buttonEdit = document.querySelector('.profile__edit-button'); //ищем кнопку "редактировать"
 const popupAdd = document.querySelector('.popup_add');
 const buttonAdd = document.querySelector('.profile__add-button');
-const buttonsClose = Array.from(document.querySelectorAll('.popup__close-button')); //ищем все кнопки "закрыть". Из списка узлов делаем массив
+const closeButtons = Array.from(document.querySelectorAll('.popup__close-button')); //ищем все кнопки "закрыть". Из списка узлов делаем массив
 const popupZoom= document.querySelector('.popup_zoom');
+const photoZoom = document.querySelector('.zoom__photo');
+const photoCaptionZoom = document.querySelector('.zoom__caption');
+
 
 //переменные для формы редактирования
 const formEdit = document.forms.formEdit; 
@@ -25,14 +28,15 @@ const placeInput = cardFormAdd.elements.newPlace;
 const linkInput = cardFormAdd.elements.link;
 
 // functions
-// функция открытия всех карточек. 
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
+//функция точечного закрытия попапа 
+function closePopup (popup) {
+ popup.classList.remove('popup_opened');
+ document.removeEventListener('keydown', closePopupFromEscape); 
 }
 
 // функция закрытия всех попапов. 
 function closeAllPopups() {
-  popups.forEach(element => element.classList.remove('popup_opened'));
+  popups.forEach(closePopup);
 }
 
 //функция закрытия попапа через esc 
@@ -47,6 +51,12 @@ function closePopupFromOverlay (evt) {
   if (evt.target.classList.contains('popup')) {closeAllPopups()}
 }
 
+// функция открытия всех карточек. 
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupFromEscape); //вешаем форму закрытия попапа через esc на весь попап. 
+}
+
 // открыть попап с редактированием профиля
 function editProfile() { //функция, которая добавляет класс к попапу и, тем самым, делает попап видимым. Фокусы на грани магии. 
   openPopup(popupEdit) 
@@ -55,7 +65,7 @@ function editProfile() { //функция, которая добавляет к�
 }
 
 // Редактирование информации в профиле. 
-function handlSubmitForm (evt) { //функция сохраняет данные и изменяет имя и занятие пользователся
+function handleProfileFormSubmit (evt) { //функция сохраняет данные и изменяет имя и занятие пользователся
   evt.preventDefault(evt); // предотвращение стандартного события 
   profileName.textContent = nameInput.value; ; //меняем текст второй переменной на значение, полученное первой переменной. 
   profileOccupation.textContent = occupationInput.value; 
@@ -64,11 +74,13 @@ function handlSubmitForm (evt) { //функция сохраняет данны�
 }
 
 //общая функция создания карточек
-function createCard(i) {
+function createCard(cardObject) {
   const card = cardTemplate.querySelector('.element').cloneNode(true);
-  card.querySelector('.element__title').textContent = initialCards[i].name;
-  card.querySelector('.element__photo').src = initialCards[i].link;
-  card.querySelector('.element__photo').alt = initialCards[i].name;
+  const cardPhoto = card.querySelector('.element__photo');
+
+  card.querySelector('.element__title').textContent = cardObject.name;
+  cardPhoto.src = cardObject.link;
+  cardPhoto.alt = cardObject.name;
   card.querySelector('.element__like-button').addEventListener('click', (event) => { event.target.classList.toggle('element__like-button_active'); }); //кнопка лайка
   card.querySelector('.element__delete-button').addEventListener('click', (event) => { event.target.closest('.element').remove(); }); //кнопка удаления карточки 
   card.querySelector('.element__photo-button').addEventListener('click', openPhotoPopup) //открытие большой картинки нажатием. 
@@ -78,19 +90,16 @@ function createCard(i) {
 // открытие картинки отдельным попапом
 function openPhotoPopup (event){
   openPopup(popupZoom)
-  const photo = document.querySelector('.zoom__photo');
-  photo.src = event.target.src;
-  photo.alt = event.target.alt;
+  photoZoom.src = event.target.src;
+  photoZoom.alt = event.target.alt;
 
-  const photoCaption = document.querySelector('.zoom__caption');
-  photoCaption.textContent = event.target.alt;
+  photoCaptionZoom.textContent = event.target.alt;
 }
 
 // Добавление новой карточки через кнопку. 
-function addFormSubmit (evt) {
-  evt.preventDefault(evt);
-  initialCards.unshift({name:placeInput.value, link:linkInput.value}) 
-  cardsContainer.prepend(createCard(0))
+function handleFormSubmit (evt) { //функция обрабатывает инфу из формы добавления карточки и создает новую карточку. 
+  evt.preventDefault(evt); 
+  cardsContainer.prepend(createCard({name:placeInput.value, link:linkInput.value}))
 
   cardFormAdd.reset()
 
@@ -98,20 +107,16 @@ function addFormSubmit (evt) {
 } 
 
 // обработчики и вызов функций
-buttonsClose.forEach((element) => {element.addEventListener('click', (evt) => {closeAllPopups()})}) // перебираем все кнопки в массиве и на каждую вешаем слушатель, который должен будет закрыть окно 
+closeButtons.forEach((element) => {element.addEventListener('click', (evt) => {closeAllPopups()})}) // перебираем все кнопки в массиве и на каждую вешаем слушатель, который должен будет закрыть окно 
 
 buttonEdit.addEventListener('click', editProfile); //добавляем кнопке "редактировать" слушатель, который по клику на кнопку вызовет функцию
 
-formEdit.addEventListener('submit', handlSubmitForm ); //эвентлисенер на форму. Лисенер слушаент, не отправлена ли форма, и запускает функцию. 
+formEdit.addEventListener('submit', handleProfileFormSubmit); //эвентлисенер на форму. Лисенер слушаент, не отправлена ли форма, и запускает функцию. 
 
 buttonAdd.addEventListener('click', (evt) => {openPopup(popupAdd)}) // открыть попап с добавлением карточки
 
-cardFormAdd.addEventListener('submit', addFormSubmit);
+cardFormAdd.addEventListener('submit', handleFormSubmit);
 
 popups.forEach((element) => {element.addEventListener('click', closePopupFromOverlay)})
 
-document.addEventListener('keydown', closePopupFromEscape); //вешаем форму закрытия попапа через esc на весь попап. 
-
-for (let i = 0; i < initialCards.length; i++) {
-  cardsContainer.append(createCard(i));
-}
+initialCards.forEach( card => cardsContainer.append(createCard(card))); 

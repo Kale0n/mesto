@@ -37,8 +37,10 @@ const hasInvalidInput = (inputList) => {
 //функция переключения кнопки 
 const toggleButtonState = (inputList, button, parameters) => {
   if (hasInvalidInput(inputList)) { // если поле невалидно, функция вернет true и тогда кнопке дабавится класс блокирующий кнопку
+    button.setAttribute("disabled", "");
     button.classList.add(parameters.inactiveButtonClass);
   } else { //если все поля заполнены верно, функция вернет false и кнопка станет активной. 
+    button.removeAttribute("disabled", "");
     button.classList.remove(parameters.inactiveButtonClass);
   }
 };
@@ -52,6 +54,12 @@ const setEventListeners = (form, parameters) => {
     input.addEventListener('input', () => {
       isValid(form, input, parameters)
       toggleButtonState(inputList, saveButton, parameters); // сразу же каждому полю вешаем переключатель кнопки 
+
+      form.addEventListener('reset', () => { //вешаем слушатель на событие reset, которое сделает кнопку неактивной через 0 сек после сброса данных 
+        setTimeout(() => {
+          toggleButtonState(inputList, saveButton, parameters);
+        }, 0); 
+      });
     });
   });
 }
