@@ -50,16 +50,17 @@ const setEventListeners = (form, parameters) => {
   const inputList = Array.from(form.querySelectorAll(parameters.inputSelector)); //создаем массив из всех форм
   const saveButton = form.querySelector(parameters.saveButtonSelector) // создаем переменную для кнопки "сохранить"
 
+  toggleButtonState(inputList, saveButton, parameters);// 1-ый раз деактивируем кнопку при запуске проекта. 
+
+  form.addEventListener('reset', () => { //вешаем слушатель на событие reset, которое сделает кнопку неактивной через 0 сек после сброса данных 
+    setTimeout(() => {
+      toggleButtonState(inputList, saveButton, parameters);
+    }, 0); 
+  });
+
   inputList.forEach(function(input){
     input.addEventListener('input', () => {
       isValid(form, input, parameters)
-      toggleButtonState(inputList, saveButton, parameters); // сразу же каждому полю вешаем переключатель кнопки 
-
-      form.addEventListener('reset', () => { //вешаем слушатель на событие reset, которое сделает кнопку неактивной через 0 сек после сброса данных 
-        setTimeout(() => {
-          toggleButtonState(inputList, saveButton, parameters);
-        }, 0); 
-      });
     });
   });
 }

@@ -97,7 +97,7 @@ function openPhotoPopup (event){
 }
 
 // Добавление новой карточки через кнопку. 
-function handleFormSubmit (evt) { //функция обрабатывает инфу из формы добавления карточки и создает новую карточку. 
+function handleCardFormSubmit (evt) { //функция обрабатывает инфу из формы добавления карточки и создает новую карточку. 
   evt.preventDefault(evt); 
   cardsContainer.prepend(createCard({name:placeInput.value, link:linkInput.value}))
 
@@ -115,7 +115,7 @@ formEdit.addEventListener('submit', handleProfileFormSubmit); //эвентлис
 
 buttonAdd.addEventListener('click', (evt) => {openPopup(popupAdd)}) // открыть попап с добавлением карточки
 
-cardFormAdd.addEventListener('submit', handleFormSubmit);
+cardFormAdd.addEventListener('submit', handleCardFormSubmit);
 
 popups.forEach((element) => {element.addEventListener('click', closePopupFromOverlay)})
 
