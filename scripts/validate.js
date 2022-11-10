@@ -61,6 +61,7 @@ const setEventListeners = (form, parameters) => {
   inputList.forEach(function(input){
     input.addEventListener('input', () => {
       isValid(form, input, parameters)
+      toggleButtonState(inputList, saveButton, parameters); //сразу же каждому полю вешаем переключатель кнопки 
     });
   });
 }
