@@ -1,6 +1,23 @@
-//общие переменные
-const cardTemplate = document.querySelector('#card').content; //ищем шаблон в html
-const cardsContainer = document.querySelector('.elements');
+import {initialCards} from "./initialCards.js"
+import { Card } from "./Card.js";
+import {FormValidator} from "./FormValidator.js"
+
+//объект формы
+const parameters = ({ // будем передавать через parameters каждой функции то, что ей нужно будем взять в объекте. 
+  inputSelector: '.form__input',
+  saveButtonSelector: '.form__save-button',
+  inactiveButtonClass: 'form__save-button_inactive',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'input-error_active'
+});
+
+//массив из форм 
+const formList = Array.from(document.querySelectorAll('.form'));
+
+
+//переменные для карочек
+const cardsContainer = document.querySelector('.elements'); 
+const cardTemplate = document.querySelector('#card');
 
 //переменные для попапов
 const popups = Array.from(document.querySelectorAll('.popup')); //all popups
@@ -13,7 +30,6 @@ const closeButtons = Array.from(document.querySelectorAll('.popup__close-button'
 const popupZoom= document.querySelector('.popup_zoom');
 const photoZoom = document.querySelector('.zoom__photo');
 const photoCaptionZoom = document.querySelector('.zoom__caption');
-
 
 //переменные для формы редактирования
 const formEdit = document.forms.formEdit; 
@@ -73,20 +89,6 @@ function handleProfileFormSubmit (evt) { //функция сохраняет д�
   closeAllPopups() //вызываем функцию закрытия попапа. 
 }
 
-//общая функция создания карточек
-function createCard(cardObject) {
-  const card = cardTemplate.querySelector('.element').cloneNode(true);
-  const cardPhoto = card.querySelector('.element__photo');
-
-  card.querySelector('.element__title').textContent = cardObject.name;
-  cardPhoto.src = cardObject.link;
-  cardPhoto.alt = cardObject.name;
-  card.querySelector('.element__like-button').addEventListener('click', (event) => { event.target.classList.toggle('element__like-button_active'); }); //кнопка лайка
-  card.querySelector('.element__delete-button').addEventListener('click', (event) => { event.target.closest('.element').remove(); }); //кнопка удаления карточки 
-  card.querySelector('.element__photo-button').addEventListener('click', openPhotoPopup) //открытие большой картинки нажатием. 
-  return card;
-}
-
 // открытие картинки отдельным попапом
 function openPhotoPopup (event){
   openPopup(popupZoom)
@@ -99,7 +101,7 @@ function openPhotoPopup (event){
 // Добавление новой карточки через кнопку. 
 function handleCardFormSubmit (evt) { //функция обрабатывает инфу из формы добавления карточки и создает новую карточку. 
   evt.preventDefault(evt); 
-  cardsContainer.prepend(createCard({name:placeInput.value, link:linkInput.value}))
+  cardsContainer.prepend(new Card({name:placeInput.value, link:linkInput.value}, cardTemplate, openPhotoPopup).generateCard())
 
   cardFormAdd.reset()
 
@@ -119,4 +121,14 @@ cardFormAdd.addEventListener('submit', handleCardFormSubmit);
 
 popups.forEach((element) => {element.addEventListener('click', closePopupFromOverlay)})
 
-initialCards.forEach( card => cardsContainer.append(createCard(card))); 
+initialCards.forEach( item => {
+  const card = new Card (item, cardTemplate, openPhotoPopup)
+  const cardElement = card.generateCard()
+
+  cardsContainer.append(cardElement)
+});
+ 
+formList.forEach((item) => {
+    const form = new FormValidator(parameters, item);
+    form.enableValidation()
+});
