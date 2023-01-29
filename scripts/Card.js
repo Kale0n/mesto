@@ -1,21 +1,25 @@
 export class Card { //единый класс создания карточек. Экспортируемый. 
-    constructor (data,  template, openFunction) { //конструктор принимает три параметра: объект, шаблон, фенкцию открытия попапа. 
+    constructor (data,  templateSelector, openFunction) { //конструктор принимает три параметра: объект, селектор шаблона, фенкцию открытия попапа. 
         this._name = data.name;
         this._link = data.link;
-        this._template = template.content;
+        this._templateSelector = templateSelector;
         this._openFunction = openFunction;
     }
 
     _getCardTemplate() {// метод, который получает шаблон из разметки. 
-        const cardElement = this._template.querySelector('.element').cloneNode(true); 
+        const cardElement = document.querySelector(this._templateSelector).content.querySelector('.element').cloneNode(true); 
         
         return cardElement
     }
 
+    _handleLikeClick (event) {
+        event.target.classList.toggle('element__like-button_active');
+    }
+
     _setEventListeners () { // установка слушателей. 
-        this._card.querySelector('.element__like-button').addEventListener('click', (event) => { event.target.classList.toggle('element__like-button_active'); }); //кнопка лайка
-        this._card.querySelector('.element__delete-button').addEventListener('click', (event) => { event.target.closest('.element').remove(); }); //кнопка удаления карточки 
-        this._card.querySelector('.element__photo-button').addEventListener('click', this._openFunction) //открытие большой картинки нажатием.
+        this._card.querySelector('.element__like-button').addEventListener('click', this._handleLikeClick); //кнопка лайка
+        this._card.querySelector('.element__delete-button').addEventListener('click', (event) => {this._card.remove()}); //кнопка удаления карточки 
+        this._card.querySelector('.element__photo-button').addEventListener('click', (event) => { this._openFunction(event.target) }) //открытие большой картинки нажатием.
     }
 
     generateCard() { //публичный метод, который создает карточку. 

@@ -44,9 +44,9 @@
         </footer>
 
        <div class="popup popup_edit">
-            <form name="formEdit" class="form" novalidate>
+            <form name="formEditProfile" class="form" novalidate>
                 <h3 class="form__heading">Редактировать профиль</h3>
-                <fieldset name="ediFormFieldset" class="form__input-container">
+                <fieldset name="formEditFieldset" class="form__input-container">
                     <input id="input-name" type="text" name="name" class="form__input" minlength="2" maxlength="40" required>
                     <span class="input-name-error input-error"></span>
                     <input id="input-occupation" type="text" name="occupation" class="form__input" minlength="2" maxlength="200" required>
@@ -58,9 +58,9 @@
         </div>
 
         <div class="popup popup_add">
-            <form name="addForm" class="form" novalidate>
+            <form name="formAddCard" class="form" novalidate>
                 <h3 class="form__heading">Новое место</h3>
-                <fieldset name="addFormFieldset" class="form__input-container">
+                <fieldset name="formAddCardFieldset" class="form__input-container">
                     <input id="input-newPlace" type="text" name="newPlace" class="form__input" placeholder="Название" minlength="2" maxlength="30" required>
                     <span class="input-newPlace-error  input-error"></span>
                     <input id="input-link" type="url" name="link" class="form__input" placeholder="Ссылка на картинку" required>
@@ -79,9 +79,6 @@
             </figure>
         </div>
         
-        <script type="module" src="scripts/initialCards.js"></script>
-        <script type="module" src="scripts/Card.js"></script>
-        <script type="module" src="scripts/FormValidator.js"></script>
         <script type="module" src="scripts/index.js"></script>
     </body>
 </html>
