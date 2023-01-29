@@ -11,7 +11,15 @@
     margin: 0;
     }
 
-.form__input::-webkit-input-placeholder {color: #C4C4C4}; 
-.form__input::-moz-placeholder-color{color: #C4C4C4};
-.form__input::-moz-placeholder-color{color: #C4C4C4}
-.form__input::-ms-input-placeholder-color{color: #C4C4C4}
+.form__input::-webkit-input-placeholder {
+    color: #C4C4C4;
+}
+.form__input::-moz-placeholder-color{
+    color: #C4C4C4;
+}
+.form__input::-moz-placeholder-color{
+    color: #C4C4C4;
+}
+.form__input::-ms-input-placeholder-color{
+    color: #C4C4C4;
+}
