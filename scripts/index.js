@@ -78,11 +78,11 @@ function handleProfileFormSubmit (evt) { //функция сохраняет д�
   profileName.textContent = nameInput.value; ; //меняем текст второй переменной на значение, полученное первой переменной. 
   profileOccupation.textContent = occupationInput.value; 
 
-  closePopup(evt.target.closest('.popup_opened')) //вызываем функцию закрытия попапа. 
+  closePopup(popupEdit) //вызываем функцию закрытия попапа. 
 }
 
 // открытие картинки отдельным попапом
-function openPhotoPopup ({ src, alt }){
+function openPhotoPopup (src, alt){
   openPopup(popupZoom)
   photoZoom.src = src;
   photoZoom.alt = alt;
@@ -105,7 +105,7 @@ function handleCardFormSubmit (evt) { //функция обрабатывает 
   formAddCard.reset();
   formAddCardValidator.toggleButtonState(); //делаем кнопку неактивнйо 
   
-  closePopup(evt.target.closest('.popup_opened'));
+  closePopup(popupAdd);
 } 
 
 // обработчики и вызовы функций

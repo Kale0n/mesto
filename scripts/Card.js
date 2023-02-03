@@ -16,10 +16,14 @@ export class Card { //единый класс создания карточек.
         event.target.classList.toggle('element__like-button_active');
     }
 
+    _removeCard() {
+        this._card.remove();
+    }
+
     _setEventListeners () { // установка слушателей. 
         this._card.querySelector('.element__like-button').addEventListener('click', this._handleLikeClick); //кнопка лайка
-        this._card.querySelector('.element__delete-button').addEventListener('click', (event) => {this._card.remove()}); //кнопка удаления карточки 
-        this._card.querySelector('.element__photo-button').addEventListener('click', (event) => { this._openFunction(event.target) }) //открытие большой картинки нажатием.
+        this._card.querySelector('.element__delete-button').addEventListener('click', (event) => {this._removeCard()}); //кнопка удаления карточки 
+        this._card.querySelector('.element__photo-button').addEventListener('click', (event) => {this._openFunction(this._link, this._name)}) //открытие большой картинки нажатием.
     }
 
     generateCard() { //публичный метод, который создает карточку. 

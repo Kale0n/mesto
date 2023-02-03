@@ -49,7 +49,7 @@ export class FormValidator{
             this._saveButton.setAttribute("disabled", "");
             this._saveButton.classList.add(this._inactiveButtonClass);
         } else { //если все поля заполнены верно, функция вернет false и кнопка станет активной. 
-            this._saveButton.removeAttribute("disabled", "");
+            this._saveButton.removeAttribute("disabled");
             this._saveButton.classList.remove(this._inactiveButtonClass);
         }
     }
