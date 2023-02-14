@@ -7,7 +7,7 @@
     border: none;
     background-color: unset;
     cursor: pointer;
-    background-image: url(../../../images/Close\ Icon.svg);
+    background-image: url(../../../images/closeIcon.svg);
     background-size: contain;
     background-repeat: no-repeat;
 }

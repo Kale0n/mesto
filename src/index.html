@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <title>Место</title>
-        <link rel="stylesheet" href="pages/index.css">
     </head>
     
     <body class="page">
@@ -14,7 +13,7 @@
 
         <main>
             <section class="profile">
-                <img class="profile__avatar" src="images/userPhoto.jpg" alt="Фото пользователя">
+                <img class="profile__avatar" src="<%=require('./images/userPhoto.jpg')%>" alt="Фото пользователя">
                 <div class="profile__info">
                     <div class="profile__name-container">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -74,11 +73,9 @@
         <div class="popup popup_zoom">
             <figure class="zoom">
                 <img class="zoom__photo">
-                <figcaption class="zoom__caption">что-нибудь</figcaption>
+                <figcaption class="zoom__caption"></figcaption>
                 <button name="closeButton" type="button" class="popup__close-button"></button>
             </figure>
         </div>
-        
-        <script type="module" src="scripts/index.js"></script>
     </body>
 </html>
