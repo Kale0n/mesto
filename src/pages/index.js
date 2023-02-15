@@ -29,15 +29,13 @@ const cardsSection = new Section(
 
 //общая функция создания карточки
 function createCard(cardItem) {
-  const card = new Card(cardItem, "#card", imagePopup.open.bind(imagePopup))
-  const cardElement = card.generateCard()
-  return cardElement
+  const card = new Card(cardItem, "#card", imagePopup.open.bind(imagePopup));
+  return card.generateCard()
 }
 
 // функция создания карточки через кнопку добавления в соответсвующей форме
 function handleCardFormSubmit ({newPlace, link}) {
   cardsSection.addItemPrepend(createCard({name:newPlace, link:link}));
-  formAddCardValidator.toggleButtonState();
 } 
 
 //добавляем кнопке "редактировать" слушатель, который по клику на кнопку вызовет функцию
@@ -50,7 +48,10 @@ buttonEdit.addEventListener('click', () => {
 });
 
 //добавляем кнопке "добавления" слушатель, который по клику на кнопку вызовет функцию
-buttonAdd.addEventListener('click', addPopup.open.bind(addPopup))
+buttonAdd.addEventListener('click', () => {
+  addPopup.open.bind(addPopup)();
+  formAddCardValidator.toggleButtonState();
+});
 
 //создание первоначальных карточек
 cardsSection.renderItems();
