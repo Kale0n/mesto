@@ -1,0 +1,11 @@
+.delete {
+    position: relative;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgb(0 0 0 / 15%);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: 430px;
+    height: 181px
+}

@@ -10,16 +10,19 @@
         <header class="header">
             <a href="#" class="header__logo"></a>
         </header>
-
+ 
         <main>
             <section class="profile">
-                <img class="profile__avatar" src="<%=require('./images/userPhoto.jpg')%>" alt="Фото пользователя">
+                <div class="profile__avatar-container">
+                    <img class="profile__avatar" alt="Фото пользователя">
+                    <button name='popupButton' type="button" class="profile__avatar-edit-button"></button>
+                </div>
                 <div class="profile__info">
                     <div class="profile__name-container">
-                        <h1 class="profile__name">Жак-Ив Кусто</h1>
+                        <h1 class="profile__name"></h1>
                         <button name='popupButton' type="button" class="profile__edit-button"></button>
                     </div>
-                    <p class="profile__occupation">Исследователь океана</p>
+                    <p class="profile__occupation"></p>
                 </div>
                 <button name='popupButton' type="button" class="profile__add-button"></button>
             </section>
@@ -31,7 +34,10 @@
                         <button type="button" class="element__delete-button"></button>
                         <div class="element__container">
                             <h2 class="element__title"></h2>
-                            <button type="button" class="element__like-button"></button>
+                            <div class="element__like-container">
+                                <button type="button" class="element__like-button"></button>
+                                <div class="element__counter"></div>
+                            </div>
                         </div>
                     </div>
                 </template>     
@@ -44,11 +50,11 @@
 
        <div class="popup popup_edit">
             <form name="formEditProfile" class="form" novalidate>
-                <h3 class="form__heading">Редактировать профиль</h3>
+                <h3 class="popup__heading">Редактировать профиль</h3>
                 <fieldset name="formEditFieldset" class="form__input-container">
                     <input id="input-name" type="text" name="name" class="form__input" minlength="2" maxlength="40" required>
                     <span class="input-name-error input-error"></span>
-                    <input id="input-occupation" type="text" name="occupation" class="form__input" minlength="2" maxlength="200" required>
+                    <input id="input-occupation" type="text" name="about" class="form__input" minlength="2" maxlength="200" required>
                     <span class="input-occupation-error input-error"></span>
                     <button type="submit" name="saveButton" class="form__save-button">Сохранить</button>
                 </fieldset>
@@ -58,13 +64,33 @@
 
         <div class="popup popup_add">
             <form name="formAddCard" class="form" novalidate>
-                <h3 class="form__heading">Новое место</h3>
+                <h3 class="popup__heading">Новое место</h3>
                 <fieldset name="formAddCardFieldset" class="form__input-container">
-                    <input id="input-newPlace" type="text" name="newPlace" class="form__input" placeholder="Название" minlength="2" maxlength="30" required>
+                    <input id="input-newPlace" type="text" name="name" class="form__input" placeholder="Название" minlength="2" maxlength="30" required>
                     <span class="input-newPlace-error  input-error"></span>
                     <input id="input-link" type="url" name="link" class="form__input" placeholder="Ссылка на картинку" required>
                     <span class="input-link-error input-error"></span>
                     <button type="submit" name="saveButton" class="form__save-button">Создать</button>
+                </fieldset>
+                <button name="closeButton" type="button" class="popup__close-button"></button>
+            </form>
+        </div>
+
+        <div class="popup popup__delete">
+            <div class="delete">
+                <h3 class="popup__heading popup__heading_delete">Вы уверены?</h3>
+                <button name="deleteButton" type="button" class="popup__button-delete">Да</button>
+                <button name="closeButton" type="button" class="popup__close-button"></button>
+            </div>
+        </div>
+
+        <div class="popup popup__avatar-edit">
+            <form name="formAvatarEdit" class="form" novalidate>
+                <h3 class="popup__heading">Обновить аватар</h3> 
+                <fieldset name="formAvatarEditFielset" class="form__input-container">
+                    <input id="input-avatar" type="url" name="avatar" class="form__input" placeholder="Ссылка на аватар" required>
+                    <span class="input-avatar-error input-error"></span>
+                    <button type="submit" name="saveButton" class="form__save-button">Сохранить</button>
                 </fieldset>
                 <button name="closeButton" type="button" class="popup__close-button"></button>
             </form>

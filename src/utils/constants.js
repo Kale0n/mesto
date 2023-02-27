@@ -10,12 +10,12 @@ const parameters = ({ // будем передавать через parameters �
 //переменные для кнопок
 const buttonEdit = document.querySelector('.profile__edit-button'); //ищем кнопку "редактировать"
 const buttonAdd = document.querySelector('.profile__add-button');
+const buttonAvatarEdit = document.querySelector('.profile__avatar-edit-button')
 
-//переменные для формы редактирования
+//переменные для форм
 const formEditProfile = document.forms.formEditProfile; 
-  
-//перемннные для формы создания новой карточки 
 const formAddCard = document.forms.formAddCard; 
+const formAvatarEdit = document.forms.formAvatarEdit;
 
   
-export {parameters, formEditProfile, formAddCard, buttonEdit, buttonAdd}
+export {parameters, formEditProfile, formAddCard, formAvatarEdit, buttonEdit, buttonAdd, buttonAvatarEdit}

@@ -1,19 +1,49 @@
 export default class Card { //единый класс создания карточек. Экспортируемый. 
-    constructor (data,  templateSelector, handleCardClick) { //конструктор принимает три параметра: объект, селектор шаблона, функцию открытия попапа. 
+    constructor (data,  templateSelector, handleCardClick, handleDeleteButton, handleLike, handleDislike, isLiked) { //конструктор принимает три параметра: объект, селектор шаблона, функцию открытия попапа. 
         this._name = data.name;
         this._link = data.link;
+        this._likes = data.likes.length
         this._templateSelector = templateSelector;
         this._openFunction = handleCardClick;
+        this._deleteFunction = handleDeleteButton
+        this._like = handleLike; // Функция, которая принимает айди карточки и возвращает промис с количеством лайков
+        this._dislike = handleDislike; // Функция, которая принимает айди карточки и возвращает промис с количеством лайков
+        this._idOwner = data.owner._id;
+        this._id = data._id;
+        this._isLiked = isLiked;
     }
 
     _getCardTemplate() {
         const cardElement = document.querySelector(this._templateSelector).content.querySelector('.element').cloneNode(true); 
-        
         return cardElement
     }
 
+    _activateLikeButton() {
+        this.isLiked = true;
+        this._card.querySelector('.element__like-button').classList.add('element__like-button_active');
+    }
+
+    _deactivateLikeButton() {
+        this.isLiked = false;
+        this._card.querySelector('.element__like-button').classList.remove('element__like-button_active');
+    }
+
     _handleLikeClick (event) {
-        event.target.classList.toggle('element__like-button_active');
+        if (!event.target.classList.contains('element__like-button_active')) {
+            this._like(this._id).then(likesCount => {
+                event.target.nextElementSibling.textContent = likesCount;
+                this._activateLikeButton();
+            }).catch( err => {
+                console.log(err);
+            })
+        } else if (event.target.classList.contains('element__like-button_active')) {
+            this._dislike(this._id).then(likesCount => {
+                event.target.nextElementSibling.textContent = likesCount;
+                this._deactivateLikeButton();
+            }).catch( err => {
+                console.log(err);
+            })
+        }
     }
 
     _removeCard() {
@@ -21,9 +51,9 @@ export default class Card { //единый класс создания карт�
     }
 
     _setEventListeners () {
-        this._card.querySelector('.element__like-button').addEventListener('click', this._handleLikeClick); //кнопка лайка
-        this._card.querySelector('.element__delete-button').addEventListener('click', (event) => {this._removeCard()}); //кнопка удаления карточки 
-        this._card.querySelector('.element__photo-button').addEventListener('click', (event) => {this._openFunction(this._link, this._name)}) //открытие большой картинки нажатием.
+        this._card.querySelector('.element__like-button').addEventListener('click', this._handleLikeClick.bind(this));
+        this._card.querySelector('.element__delete-button').addEventListener('click', () => {this._deleteFunction(this._id, this._removeCard.bind(this))});
+        this._card.querySelector('.element__photo-button').addEventListener('click', (event) => {this._openFunction(this._link, this._name)});
     }
 
     generateCard() {
@@ -34,7 +64,13 @@ export default class Card { //единый класс создания карт�
         this._card.querySelector('.element__title').textContent = this._name;
         this._cardPhoto.src = this._link; 
         this._cardPhoto.alt = this._name;
-        
+        this._card.querySelector('.element__counter').textContent = this._likes;
+        if (this._idOwner != 'a8fcd75ff2197bdf30059feb'){
+            this._card.querySelector(".element__delete-button").remove()
+        }
+        if (this._isLiked) {
+            this._activateLikeButton();
+        }
         return this._card;
     }
 }

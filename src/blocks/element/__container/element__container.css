@@ -1,9 +1,9 @@
 .element__container {
     display: flex;
     flex-direction: row;
-    height: 23px;
-    padding: 25px 20px 31px;
+    height: 35px;
+    padding: 22px 20px;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     background-color: #FFF;
 }
