@@ -56,7 +56,7 @@ const addPopup = new PopupWithForm(
   }
 );
 const avatarEdit = new PopupWithForm(
-  '.popup__avatar-edit',
+  '.popup_avatar-edit',
   (data, element) => {
     renderloading(true, element)
     api.changeAvatar(data)
@@ -69,7 +69,7 @@ const avatarEdit = new PopupWithForm(
     )
   }
 );
-const deletePopup = new PopupDelete ('.popup__delete', '.popup__button-delete');
+const deletePopup = new PopupDelete ('.popup_delete', '.popup__button-delete');
 const cardsSection = new Section('.elements')
 
 //получение первоначального массива карточек
