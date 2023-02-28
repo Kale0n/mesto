@@ -1,6 +1,6 @@
 //импорты 
 import "./index.css"
-import {parameters, formEditProfile, formAddCard, formAvatarEdit, buttonEdit, buttonAdd, buttonAvatarEdit, ownerId} from "../utils/constants.js";
+import {parameters, formEditProfile, formAddCard, formAvatarEdit, buttonEdit, buttonAdd, buttonAvatarEdit} from "../utils/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupDelete from "../components/PopupDelete.js";
@@ -31,8 +31,8 @@ const formAddCardValidator = new FormValidator(parameters, formAddCard);
 const formAvatarEditValidator = new FormValidator(parameters, formAvatarEdit)
 const editPopup = new PopupWithForm(
   '.popup_edit', 
-  (data, element) => {
-    renderloading(true, element)
+  (data) => {
+    editPopup.renderLoading(true)
     api.editProfile(data)
     .then(
       userInfo.setUserInfo.bind(userInfo)
@@ -40,14 +40,14 @@ const editPopup = new PopupWithForm(
     ).catch((err) => {
       console.log(err);
   }).finally(
-      ()=> renderloading(false, element)
+      ()=> editPopup.renderLoading(false)
     )
   }
 );
 const addPopup = new PopupWithForm(
   '.popup_add',
-  (data,element) => {
-    renderloading(true, element)
+  (data) => {
+    addPopup.renderLoading(true)
     api.addNewCard(data)
     .then(
       handleCardFormSubmit
@@ -55,14 +55,14 @@ const addPopup = new PopupWithForm(
     ).catch((err) => {
       console.log(err);
   }).finally(
-      ()=> renderloading(false, element)
+      ()=> addPopup.renderLoading(false)
     )
   }
 );
 const avatarEdit = new PopupWithForm(
   '.popup_avatar-edit',
-  (data, element) => {
-    renderloading(true, element)
+  (data) => {
+    avatarEdit.renderLoading(true)
     api.changeAvatar(data)
     .then(
       userInfo.setUserAvatar.bind(userInfo)
@@ -70,7 +70,7 @@ const avatarEdit = new PopupWithForm(
     ).catch((err) => {
       console.log(err);
   }).finally(
-      ()=> renderloading(false, element)
+      ()=> avatarEdit.renderLoading(false)
     )
   }
 );
@@ -109,15 +109,6 @@ function handleLikeCard (cardId) {
 
 function handleDislikeCard (cardId) {
   return api.dislikeCard(cardId).then((data) => {return data.likes.length})
-}
-
-//Функция "загрузки"
-function renderloading (isLoading, element) {
-  if (isLoading) {
-    element.textContent = "Сохранение..."
-  } else {
-    element.textContent = "Сохранить"
-  }
 }
 
 //общая функция создания карточки

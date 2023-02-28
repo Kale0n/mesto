@@ -16,7 +16,7 @@ export default class Card { //единый класс создания карт�
 
     _getCardTemplate() {
         const cardElement = document.querySelector(this._templateSelector).content.querySelector('.element').cloneNode(true); 
-        return cardElement
+        return cardElement;
     }
 
     _activateLikeButton() {
@@ -74,6 +74,5 @@ export default class Card { //единый класс создания карт�
             this._activateLikeButton();
         }
         return this._card;
-
     }
 }
