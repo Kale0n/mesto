@@ -10,7 +10,6 @@ export default class PopupDelete extends Popup {
 
     _deleteHandler() {
         this._deleteCallback();
-        this.close();
     }
 
     open(deleteFunction) {

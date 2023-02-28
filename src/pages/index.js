@@ -1,6 +1,6 @@
 //импорты 
 import "./index.css"
-import {parameters, formEditProfile, formAddCard, formAvatarEdit, buttonEdit, buttonAdd, buttonAvatarEdit} from "../utils/constants.js";
+import {parameters, formEditProfile, formAddCard, formAvatarEdit, buttonEdit, buttonAdd, buttonAvatarEdit, ownerId} from "../utils/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupDelete from "../components/PopupDelete.js";
@@ -9,6 +9,8 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
 import Api from "../components/Api.js"
+
+let userId = null;
 
 //создание классов
 const api = new Api({
@@ -34,6 +36,7 @@ const editPopup = new PopupWithForm(
     api.editProfile(data)
     .then(
       userInfo.setUserInfo.bind(userInfo)
+    ).then(editPopup.close.bind(editPopup)
     ).catch((err) => {
       console.log(err);
   }).finally(
@@ -48,6 +51,7 @@ const addPopup = new PopupWithForm(
     api.addNewCard(data)
     .then(
       handleCardFormSubmit
+    ).then(addPopup.close.bind(addPopup)
     ).catch((err) => {
       console.log(err);
   }).finally(
@@ -62,6 +66,7 @@ const avatarEdit = new PopupWithForm(
     api.changeAvatar(data)
     .then(
       userInfo.setUserAvatar.bind(userInfo)
+    ).then(avatarEdit.close.bind(avatarEdit)
     ).catch((err) => {
       console.log(err);
   }).finally(
@@ -70,25 +75,20 @@ const avatarEdit = new PopupWithForm(
   }
 );
 const deletePopup = new PopupDelete ('.popup_delete', '.popup__button-delete');
-const cardsSection = new Section('.elements')
+const cardsSection = new Section((item) => { 
+  const cardElement = createCard(item); 
+  cardsSection.addItem(cardElement);  
+} , '.elements')
 
-//получение первоначального массива карточек
-api.getInitialCards().then(data => {
-  data.forEach(item => {
-    const cardElement = createCard(item);
-    cardsSection.addItem(cardElement); 
-  })
-}).catch((err) => {
-  console.log(err);
-});
-
-//получение информации о пользователе
-api.getUserInfo().then ( 
-(data) => {
-    userInfo.setUserInfo(data)
-    userInfo.setUserAvatar(data)
-  }
-).catch((err) => {
+//получение начальных данных (массива карточек и информации о пользователе
+Promise.all([api.getInitialCards(), api.getUserInfo()])
+.then(([cards, UserData])=> {
+  userInfo.setUserInfo(UserData);
+  userInfo.setUserAvatar(UserData);
+  userId = UserData._id;
+  cardsSection.renderItems(cards);
+})
+.catch((err) => {
   console.log(err);
 });
 
@@ -97,7 +97,7 @@ function handleDeleteCard (cardId, cardDeleteFunction) {
   deletePopup.open(() => {
     api.deleteCard(cardId).then(() => {
       cardDeleteFunction()
-    }).catch((err) => {
+    }).then(deletePopup.close.bind(deletePopup)).catch((err) => {
       console.log(err);
   });
   })
@@ -125,11 +125,12 @@ function createCard(cardItem) {
   const card = new Card(
     cardItem,
     "#card",
+    userId,
     imagePopup.open.bind(imagePopup),
     handleDeleteCard,
     handleLikeCard,
     handleDislikeCard,
-    cardItem.likes.map(owner => owner._id).includes('a8fcd75ff2197bdf30059feb')
+    cardItem.likes.map(owner => owner._id).includes(userId)
   );
   return card.generateCard();
 }
@@ -149,13 +150,14 @@ buttonEdit.addEventListener('click', () => {
 });
 
 buttonAdd.addEventListener('click', () => {
-  addPopup.open.bind(addPopup)();
+  addPopup.open();
   formAddCardValidator.toggleButtonState();
 });
 
-buttonAvatarEdit.addEventListener('click', 
-  avatarEdit.open.bind(avatarEdit)
-);
+buttonAvatarEdit.addEventListener('click', () => {
+  avatarEdit.open();
+  formAvatarEditValidator.toggleButtonState();
+});
 
 //добавление обработчиков экземплярам классов
 editPopup.setEventListeners();

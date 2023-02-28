@@ -17,5 +17,8 @@ const formEditProfile = document.forms.formEditProfile;
 const formAddCard = document.forms.formAddCard; 
 const formAvatarEdit = document.forms.formAvatarEdit;
 
+//переменные для id владельца страницы 
+let ownerId = null
+
   
-export {parameters, formEditProfile, formAddCard, formAvatarEdit, buttonEdit, buttonAdd, buttonAvatarEdit}
+export {parameters, formEditProfile, formAddCard, formAvatarEdit, buttonEdit, buttonAdd, buttonAvatarEdit, ownerId}

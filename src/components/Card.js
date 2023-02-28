@@ -1,13 +1,14 @@
 export default class Card { //единый класс создания карточек. Экспортируемый. 
-    constructor (data,  templateSelector, handleCardClick, handleDeleteButton, handleLike, handleDislike, isLiked) { //конструктор принимает три параметра: объект, селектор шаблона, функцию открытия попапа. 
+    constructor (data,  templateSelector, userId, handleCardClick, handleDeleteButton, handleLike, handleDislike, isLiked) { //конструктор принимает три параметра: объект, селектор шаблона, функцию открытия попапа. 
         this._name = data.name;
         this._link = data.link;
         this._likes = data.likes.length
         this._templateSelector = templateSelector;
         this._openFunction = handleCardClick;
-        this._deleteFunction = handleDeleteButton
+        this._deleteFunction = handleDeleteButton;
         this._like = handleLike; // Функция, которая принимает айди карточки и возвращает промис с количеством лайков
         this._dislike = handleDislike; // Функция, которая принимает айди карточки и возвращает промис с количеством лайков
+        this._userId = userId;
         this._idOwner = data.owner._id;
         this._id = data._id;
         this._isLiked = isLiked;
@@ -19,13 +20,13 @@ export default class Card { //единый класс создания карт�
     }
 
     _activateLikeButton() {
-        this.isLiked = true;
-        this._card.querySelector('.element__like-button').classList.add('element__like-button_active');
+        this._isLiked = true;
+        this._likeButton.classList.add('element__like-button_active');
     }
 
     _deactivateLikeButton() {
-        this.isLiked = false;
-        this._card.querySelector('.element__like-button').classList.remove('element__like-button_active');
+        this._isLiked = false;
+        this._likeButton.classList.remove('element__like-button_active');
     }
 
     _handleLikeClick (event) {
@@ -51,13 +52,14 @@ export default class Card { //единый класс создания карт�
     }
 
     _setEventListeners () {
-        this._card.querySelector('.element__like-button').addEventListener('click', this._handleLikeClick.bind(this));
+        this._likeButton.addEventListener('click', this._handleLikeClick.bind(this));
         this._card.querySelector('.element__delete-button').addEventListener('click', () => {this._deleteFunction(this._id, this._removeCard.bind(this))});
         this._card.querySelector('.element__photo-button').addEventListener('click', (event) => {this._openFunction(this._link, this._name)});
     }
 
     generateCard() {
         this._card = this._getCardTemplate();
+        this._likeButton = this._card.querySelector('.element__like-button');
         this._cardPhoto = this._card.querySelector('.element__photo');
         this._setEventListeners();
 
@@ -65,12 +67,13 @@ export default class Card { //единый класс создания карт�
         this._cardPhoto.src = this._link; 
         this._cardPhoto.alt = this._name;
         this._card.querySelector('.element__counter').textContent = this._likes;
-        if (this._idOwner != 'a8fcd75ff2197bdf30059feb'){
+        if (this._idOwner != this._userId){
             this._card.querySelector(".element__delete-button").remove()
         }
         if (this._isLiked) {
             this._activateLikeButton();
         }
         return this._card;
+
     }
 }
